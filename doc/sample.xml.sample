@@ -1,0 +1,12 @@
+<!-- BEGIN_INCLUDE(jdto:bind) -->
+<spring:bean id="dtobinder" class="org.jdto.spring.SpringDTOBinder" />
+
+<jdto:bind targetClass="org.jdto.SampleDTO" />
+
+<flow name="testFlow">
+    ...
+    <jdto:bind dtoBinder-ref="dtobinder" targetClass="org.jdto.MyDTO" />
+    ...
+</flow>
+
+<!-- END_INCLUDE(jdto:bind) -->
