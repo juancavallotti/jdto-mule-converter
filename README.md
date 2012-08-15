@@ -1,38 +1,37 @@
+jDTO Binder Transformer for Mule ESB
+====================================
 
-WELCOME
-=======
-Congratulations you have just created a new Mule Transformer!
+This is a transformer which takes advantage of the jDTO Binder Object-to-Object mapping capabilities. 
+For more information and documentation of jDTO Binder please visit http://www.jdto.org.
 
-This wizard created a number of new classes and resources useful for Mule
-modules.  Each of the created files contains documentation and TODO
-items where necessary.  Here is an overview of what was created.
+Basic Usage
+-----------
 
-./pom.xml:
-A maven project descriptor that describes how to build this module.
+The following is a sample flow to demonstrate how to incorporate the component into your Mule Flows:
 
-./LICENSE.md:
-The open source license text for this project.
+```xml
 
-TESTING
-=======
 
-This  project also contains test classes that can be run as part of a test
-suite.
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:spring="http://www.springframework.org/schema/beans"
+      xmlns:jdto="http://www.mulesoft.org/schema/mule/jdto"
+      xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+      xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+        http://www.mulesoft.org/schema/mule/jdto http://www.mulesoft.org/schema/mule/jdto/current/mule-jdto.xsd">
+        
+    <spring:bean id="dtobinder" class="org.jdto.spring.SpringDTOBinder" />
+    
+    <flow name="testFlow">
+        <vm:inbound-endpoint exchange-pattern="request-response" path="MainFlow"/>
+        <jdto:bind dtoBinder-ref="dtobinder" targetClass="org.jdto.mule.SampleDTO" />
+    </flow>
 
-ADDITIONAL RESOURCES
-====================
-Everything you need to know about getting started with Mule can be found here:
-http://www.mulesoft.org/documentation/display/MULE3INTRO/Home
+</mule>
 
-There further useful information about extending Mule here:
-http://www.mulesoft.org/documentation/display/DEVKIT/Home
+```
 
-Remember if you get stuck you can try getting help on the Mule user list:
-http://www.mulesoft.org/email-lists
-
-Also, MuleSoft, the company behind Mule, offers 24x7 support options:
-http://www.mulesoft.com/enterprise-subscriptions-and-support
-
-Enjoy your Mule ride!
-
-The Mule Team
+Please note that this artifact is under development and currently cannot be used on production environments.
