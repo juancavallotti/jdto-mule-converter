@@ -15,7 +15,7 @@
         <mockito.version>1.8.2</mockito.version>
         <jdk.version>1.6</jdk.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jdto.version>1.2</jdto.version>
+        <jdto.version>1.3-SNAPSHOT</jdto.version>
     </properties>
 
     <build>
@@ -227,12 +227,6 @@
             <artifactId>jdto</artifactId>
             <version>${jdto.version}</version>
         </dependency>
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
-        </dependency>
-        
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

@@ -4,8 +4,19 @@ jDTO Binder Transformer for Mule ESB
 This is a transformer which takes advantage of the jDTO Binder Object-to-Object mapping capabilities. 
 For more information and documentation of jDTO Binder please visit http://www.jdto.org.
 
+Building The Project
+--------------------
+
+Please check out the instructions for configuring maven in the MuleSource website:  http://www.mulesoft.org/documentation/display/MULECDEV/Using+Maven
+
+This project depends on a yet unreleased version of jDTO Binder so, in order to test this, please check out the latest source and build it.
+
+You can find the source for jDTO Binder here: https://github.com/jDTOBinder/jDTO-Binder
+
 Basic Usage
 -----------
+
+This Mule module should fine work with Mule ESB 3.3.0, previous versions are not supported.
 
 The following is a sample flow to demonstrate how to incorporate the component into your Mule Flows:
 
