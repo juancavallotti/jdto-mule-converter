@@ -6,7 +6,7 @@
     <artifactId>mule-jdto-transformer</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>mule-module</packaging>
-    <name>Mule Transformer</name>
+    <name>jDTO Binder Mule Transformer</name>
 
     <properties>
         <mule.version>3.3.0</mule.version>
