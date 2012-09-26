@@ -22,27 +22,70 @@ The following is a sample flow to demonstrate how to incorporate the component i
 
 ```xml
 
-
-<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns:spring="http://www.springframework.org/schema/beans"
+      xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns:mule-xml="http://www.mulesoft.org/schema/mule/xml"
       xmlns:jdto="http://www.mulesoft.org/schema/mule/jdto"
-      xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
-      xsi:schemaLocation="
-        http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
-        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-        http://www.mulesoft.org/schema/mule/jdto http://www.mulesoft.org/schema/mule/jdto/current/mule-jdto.xsd">
-        
-    <spring:bean id="dtobinder" class="org.jdto.spring.SpringDTOBinder" />
+    xsi:schemaLocation="
+    http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+    http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
+    http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/3.3/mule-xml.xsd 
+    http://www.mulesoft.org/schema/mule/jdto http://www.mulesoft.org/schema/mule/jdto/current/mule-jdto.xsd"
+    >
     
-    <flow name="testFlow">
-        <vm:inbound-endpoint exchange-pattern="request-response" path="MainFlow"/>
-        <jdto:bind dtoBinder-ref="dtobinder" targetClass="org.jdto.mule.SampleDTO" />
+    <!-- define the global DTO binder -->
+    <spring:bean id="dtoBinder" class="org.jdto.spring.SpringDTOBinder"></spring:bean>
+    
+    <flow name="main" doc:name="main">
+    	<!-- http inbound -->
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" doc:name="HTTP" mimeType="text/plain"/>
+        <!-- Convert the query string into a map -->
+        <http:body-to-parameter-map-transformer doc:name="Body to Parameter Map"/>
+        <!-- build the object -->
+        <jdto:bind dtoBinder-ref="dtoBinder" targetClass="org.jdto.mule.Person" />
+        <!-- print the string version -->
+        <object-to-string-transformer doc:name="Object to String"/>
     </flow>
-
 </mule>
 
 ```
+
+And the Person class looks like:
+
+```java
+public class Person implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private String name;
+
+    @Source("last")
+    private String lastName;
+
+    private int age;
+
+    ... //getters and setters
+
+    @Override
+    public String toString() {
+            return "Person [name=" + name + ", lastName=" + lastName + ", age="
+                            + age + "]";
+    }
+}
+```
+
+To test it, open a browser with the following url:
+
+    http://localhost:8081?name=Keith&last=Richards&age=79
+
+And should print out the following:
+
+
+    Person [name=Keith, lastName=Richards, age=79]
+
 
 Please note that this artifact is under development and currently cannot be used on production environments.
